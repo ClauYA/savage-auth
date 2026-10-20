@@ -1,12 +1,13 @@
 // server.js
-
 // set up ======================================================================
 // get all the tools we need
 var express  = require('express');
 var app      = express();
 var port     = process.env.PORT || 8080;
-const MongoClient = require('mongodb').MongoClient
+//desetructuracion
+const { ObjectID } = require('mongodb')
 var mongoose = require('mongoose');
+//library and open source
 var passport = require('passport');
 var flash    = require('connect-flash');
 
@@ -23,7 +24,7 @@ var db
 mongoose.connect(configDB.url, (err, database) => {
   if (err) return console.log(err)
   db = database
-  require('./app/routes.js')(app, passport, db);
+  require('./app/routes.js')(app, passport, db, ObjectID);
 }); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
@@ -35,7 +36,7 @@ app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'))
 
-
+//
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
